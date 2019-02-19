@@ -5,13 +5,13 @@
 Summary:	Minimal mDNS resolver (and announcer) library
 Summary(pl.UTF-8):	Minimalna biblioteka do rozwiązywania (i rozgłaszania) mDNS
 Name:		microdns
-Version:	0.0.6
+Version:	0.0.10
 Release:	1
 License:	LGPL v2.1 or commercial
 Group:		Libraries
 #Source0Download: https://github.com/videolabs/libmicrodns/releases
 Source0:	https://github.com/videolabs/libmicrodns/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	b4705373a800fad062c05addf8eb9d62
+# Source0-md5:	f49c39e94afc0ced59aeff94d9b76a3e
 URL:		https://github.com/videolabs/libmicrodns
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -48,6 +48,8 @@ Statyczna biblioteka microdns.
 %prep
 %setup -q
 
+%{__sed} -ne '1p' COPYING > LICENSE
+
 %build
 %configure \
 	--disable-silent-rules \
@@ -73,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README.md
+%doc AUTHORS LICENSE NEWS README.md
 %attr(755,root,root) %{_libdir}/libmicrodns.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libmicrodns.so.0
 
