@@ -5,14 +5,18 @@
 Summary:	Minimal mDNS resolver (and announcer) library
 Summary(pl.UTF-8):	Minimalna biblioteka do rozwiązywania (i rozgłaszania) mDNS
 Name:		microdns
-Version:	0.1.0
+Version:	0.1.2
 Release:	1
 License:	LGPL v2.1 or commercial
 Group:		Libraries
 #Source0Download: https://github.com/videolabs/libmicrodns/releases
-Source0:	https://github.com/videolabs/libmicrodns/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	d64f4d93c9c935b37f0fe3b70b9caa83
+Source0:	https://github.com/videolabs/libmicrodns/releases/download/%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	816c6100f171e5ade3d6e6aea869cac7
 URL:		https://github.com/videolabs/libmicrodns
+BuildRequires:	meson >= 0.50.0
+BuildRequires:	ninja >= 1.5
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -51,21 +55,14 @@ Statyczna biblioteka microdns.
 %{__sed} -ne '1p' COPYING > LICENSE
 
 %build
-%configure \
-	--disable-silent-rules \
-	%{!?with_static_libs:--disable-static}
-%{__make}
+%meson build
+
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-# no external dependencies, obsoleted by pkg-config
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libmicrodns.la
-# packaged as %doc
-%{__rm} $RPM_BUILD_ROOT%{_docdir}/microdns/README.md
+%ninja_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
