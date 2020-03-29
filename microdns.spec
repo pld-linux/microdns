@@ -15,6 +15,7 @@ Source0:	https://github.com/videolabs/libmicrodns/releases/download/%{version}/%
 URL:		https://github.com/videolabs/libmicrodns
 BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja >= 1.5
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
